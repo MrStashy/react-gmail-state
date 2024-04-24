@@ -6,6 +6,7 @@ import './styles/App.css'
 function App() {
 
   const [emails, updateEmails] = useState(initialEmails)
+  const [hideRead, updateHideRead] = useState(false)
  
   function toggleRead(email) {
     email.read = !email.read
@@ -15,7 +16,18 @@ function App() {
   function toggleStar(email) {
     email.starred = !email.starred
     updateEmails([...emails])
-    console.log(emails)
+  }
+
+  function toggleHideRead() {
+    updateHideRead(!hideRead)
+  }
+
+  function getEmails() {
+    if (hideRead) {
+      return emails.filter((email) => !email.read)
+   } else {
+    return emails
+   }
   }
 
   return (
@@ -41,15 +53,16 @@ function App() {
           <li className="item toggle">
             <label htmlFor="hide-read">Hide read</label>
             <input
+              onChange={toggleHideRead}
               id="hide-read"
               type="checkbox"
-              checked={false}
+              checked={hideRead}
               // onChange={() => {}}
             />
           </li>
         </ul>
       </nav>
-      <main className="emails">{ emails.map((email, index) => { return (
+      <main className="emails">{ getEmails().map((email, index) => { return (
            <li className="email" key={index}>
            <div className="select">
            <input
