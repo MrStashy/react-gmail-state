@@ -7,6 +7,7 @@ function App() {
 
   const [emails, updateEmails] = useState(initialEmails)
   const [hideRead, updateHideRead] = useState(false)
+  const [currentTab, updateTab] = useState('inbox')
  
   function toggleRead(email) {
     email.read = !email.read
@@ -18,16 +19,16 @@ function App() {
     updateEmails([...emails])
   }
 
-  function toggleHideRead() {
-    updateHideRead(!hideRead)
-  }
-
   function getEmails() {
     if (hideRead) {
-      return emails.filter((email) => !email.read)
+      return emails.filter(email => !email.read)
    } else {
     return emails
    }
+  }
+
+  function getStarredEmails () {
+    return getEmails().filter(email => email.starred)
   }
 
   return (
@@ -37,27 +38,24 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{getEmails().length}</span>
           </li>
           <li
             className="item"
-            // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{getStarredEmails().length}</span>
           </li>
 
           <li className="item toggle">
             <label htmlFor="hide-read">Hide read</label>
             <input
-              onChange={toggleHideRead}
+              onChange={() => updateHideRead(!hideRead)}
               id="hide-read"
               type="checkbox"
               checked={hideRead}
-              // onChange={() => {}}
             />
           </li>
         </ul>
