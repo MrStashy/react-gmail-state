@@ -8,29 +8,19 @@ function App() {
   const [hideRead, updateHideRead] = useState(false);
   const [currentTab, updateTab] = useState("inbox");
 
-  function toggleRead(email) {
-    email.read = !email.read;
-    updateEmails([...emails]);
-  }
-
-  function toggleStar(email) {
-    email.starred = !email.starred;
-    updateEmails([...emails]);
-  }
-
   function getEmails() {
-    let filteredEmails = emails
+    let filteredEmails = emails;
     if (hideRead) {
       filteredEmails = emails.filter((email) => !email.read);
-    } 
-    if (currentTab === 'starred') {
-      filteredEmails = filteredEmails.filter((email) => email.starred)
+    }
+    if (currentTab === "starred") {
+      filteredEmails = filteredEmails.filter((email) => email.starred);
     }
     return filteredEmails;
   }
 
   function getStarredEmails() {
-    return getEmails().filter(email => email.starred)
+    return getEmails().filter((email) => email.starred);
   }
 
   return (
@@ -38,11 +28,11 @@ function App() {
       <Header />
       <nav className="left-menu">
         <ul className="inbox-list">
-          <li className="item active" onClick={() => updateTab('inbox')}>
+          <li className="item active" onClick={() => updateTab("inbox")}>
             <span className="label">Inbox</span>
             <span className="count">{emails.length}</span>
           </li>
-          <li className="item" onClick={() => updateTab('starred')}>
+          <li className="item" onClick={() => updateTab("starred")}>
             <span className="label">Starred</span>
             <span className="count">{getStarredEmails().length}</span>
           </li>
@@ -64,7 +54,10 @@ function App() {
             <li className="email" key={index}>
               <div className="select">
                 <input
-                  onChange={() => toggleRead(email)}
+                  onChange={() => {
+                    email.read = !email.read;
+                    updateEmails([...emails]);
+                  }}
                   className="select-checkbox"
                   type="checkbox"
                   checked={email.read}
@@ -72,7 +65,10 @@ function App() {
               </div>
               <div className="star">
                 <input
-                  onChange={() => toggleStar(email)}
+                  onChange={() => {
+                    email.starred = !email.starred;
+                    updateEmails([...emails]);
+                  }}
                   className="star-checkbox"
                   type="checkbox"
                   checked={email.starred}
