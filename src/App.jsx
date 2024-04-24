@@ -40,7 +40,7 @@ function App() {
         <ul className="inbox-list">
           <li className="item active" onClick={() => updateTab('inbox')}>
             <span className="label">Inbox</span>
-            <span className="count">{getEmails().length}</span>
+            <span className="count">{emails.length}</span>
           </li>
           <li className="item" onClick={() => updateTab('starred')}>
             <span className="label">Starred</span>
